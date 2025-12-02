@@ -1,133 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>#000000</title>
-    <link type="image/x-icon" rel="shortcut icon" href="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQCAYAAAAf8/9hAAAAHklEQVQ4T2NkYGD4z0ABYBw1gGE0DBhGw4BhWIQBAE5OEAELnjVHAAAAAElFTkSuQmCC">
+    <title>StreamerHub - Live Now</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
     <style>
-        :root {
-            --color: #000000;
-            --color-transparent: #00000022;
-        }
-
-        ::selection {
-            background: var(--color-transparent);
-        }
-
-        html,
-        body {
-            background: var(--color);
-            height: 100%;
-            margin: 0;
-        }
-
-        body {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-        }
-
-        #color {
-            background: white;
-            color: var(--color);
-            font-size: 2.5rem;
-            font-weight: 300;
-            padding: 2.25rem 3rem;
-            font-family: -apple-system, BlinkMacSystemFont, avenir next, avenir, helvetica neue, helvetica, ubuntu, roboto, noto, segoe ui, arial, sans-serif;
-            cursor: text;
-        }
+        /* Twitch Purple Accent */
+        .twitch-accent { color: #9146FF; }
+        .twitch-bg { background-color: #9146FF; }
+        .twitch-hover:hover { background-color: #772ce8; }
+        
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1f1f23; }
+        ::-webkit-scrollbar-thumb { background: #9146FF; border-radius: 4px; }
     </style>
 </head>
+<body class="bg-[#0e0e10] text-gray-100 font-sans min-h-screen flex flex-col">
 
-<body>
-    <p id="color">#000000</p>
-    <script>
-        function randomInt(min, max) {
-            return Math.floor(Math.random() * (max - min + 1) + min);
-        }
+    <!-- Navigation -->
+    <nav class="bg-[#18181b] border-b border-[#2d2d30] py-4 sticky top-0 z-50">
+        <div class="container mx-auto px-4 flex justify-between items-center">
+            <div class="flex items-center space-x-2">
+                <!-- Replace with your Logo URL -->
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center">
+                    <i data-lucide="gamepad-2" class="text-white"></i>
+                </div>
+                <span class="text-xl font-bold tracking-tight">CHANNEL<span class="twitch-accent">NAME</span></span>
+            </div>
+            <div class="hidden md:flex space-x-6 font-medium">
+                <a href="#home" class="hover:text-[#9146FF] transition">Home</a>
+                <a href="#schedule" class="hover:text-[#9146FF] transition">Schedule</a>
+                <a href="#socials" class="hover:text-[#9146FF] transition">Socials</a>
+            </div>
+            <a href="https://twitch.tv/solar_0613" target="_blank" class="twitch-bg text-white px-4 py-2 rounded-md font-bold text-sm twitch-hover transition flex items-center space-x-2">
+                <i data-lucide="twitch" class="w-4 h-4"></i>
+                <span>Subscribe</span>
+            </a>
+        </div>
+    </nav>
 
-        function hslToHex(h, s, l) {
-            h /= 360;
-            s /= 100;
-            l /= 100;
-            var r = void 0,
-                g = void 0,
-                b = void 0;
-            if (s === 0) {
-                r = g = b = l; // achromatic
-            } else {
-                var hue2rgb = function hue2rgb(p, q, t) {
-                    if (t < 0) t += 1;
-                    if (t > 1) t -= 1;
-                    if (t < 1 / 6) return p + (q - p) * 6 * t;
-                    if (t < 1 / 2) return q;
-                    if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-                    return p;
-                };
-                var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
-                var p = 2 * l - q;
-                r = hue2rgb(p, q, h + 1 / 3);
-                g = hue2rgb(p, q, h);
-                b = hue2rgb(p, q, h - 1 / 3);
-            }
-            var toHex = function toHex(x) {
-                var hex = Math.round(x * 255).toString(16);
-                return hex.length === 1 ? '0' + hex : hex;
-            };
-            return '#' + toHex(r) + toHex(g) + toHex(b);
-        }
+    <!-- Main Content Area -->
+    <main class="flex-grow container mx-auto px-4 py-8" id="home">
+        
+        <!-- Live Stream & Chat Container -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[80vh] min-h-[600px] mb-12">
+            <!-- Video Player (Takes up 3/4 width on large screens) -->
+            <div class="lg:col-span-3 bg-black rounded-lg overflow-hidden shadow-2xl border border-[#2d2d30] relative group">
+                <div id="twitch-embed" class="w-full h-full"></div>
+                <!-- Placeholder if JS fails -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
+                    <span class="text-gray-500">Loading Stream...</span>
+                </div>
+            </div>
 
-        window.onload = function () {
-            let stopProp = function (ev) {
-                ev.stopPropagation();
-            }
+            <!-- Chat (Takes up 1/4 width on large screens, moves to bottom on mobile) -->
+            <div class="lg:col-span-1 bg-[#18181b] rounded-lg border border-[#2d2d30] hidden lg:block overflow-hidden">
+                <iframe 
+                    id="twitch-chat-embed"
+                    src="https://www.twitch.tv/embed/YOUR_USERNAME/chat?parent=YOUR_DOMAIN.com&darkpopout"
+                    height="100%"
+                    width="100%"
+                    class="w-full h-full border-0">
+                </iframe>
+            </div>
+        </div>
 
-            var colorElement = document.getElementById("color");
-            colorElement.addEventListener("click", stopProp, false);
-            colorElement.addEventListener("mousedown", stopProp, false);
+        <!-- Schedule Section -->
+        <section id="schedule" class="mb-16">
+            <div class="flex items-center mb-6">
+                <i data-lucide="calendar" class="w-6 h-6 mr-2 twitch-accent"></i>
+                <h2 class="text-2xl font-bold">Weekly Schedule</h2>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <!-- Schedule Card 1 -->
+                <div class="bg-[#18181b] p-6 rounded-lg border border-[#2d2d30] hover:border-[#9146FF] transition duration-300">
+                    <div class="text-gray-400 text-sm mb-1">Monday & Wednesday</div>
+                    <div class="text-xl font-bold text-white mb-2">Ranked Grind</div>
+                    <div class="text-purple-400 font-mono text-sm">2:00 PM EST</div>
+                </div>
+                
+                <!-- Schedule Card 2 -->
+                <div class="bg-[#18181b] p-6 rounded-lg border border-[#2d2d30] hover:border-[#9146FF] transition duration-300">
+                    <div class="text-gray-400 text-sm mb-1">Friday</div>
+                    <div class="text-xl font-bold text-white mb-2">Community Night</div>
+                    <div class="text-purple-400 font-mono text-sm">6:00 PM EST</div>
+                </div>
 
-            var setFavicon = function (hex) {
-                var canvas = document.createElement('canvas');
-                canvas.width = 16;
-                canvas.height = 16;
-                var ctx = canvas.getContext('2d');
-                ctx.fillStyle = hex;
-                ctx.fillRect(0, 0, 16, 16);
-                document.getElementsByTagName('link')[0].href = canvas.toDataURL("image/x-icon");
-            }
+                <!-- Schedule Card 3 -->
+                <div class="bg-[#18181b] p-6 rounded-lg border border-[#2d2d30] hover:border-[#9146FF] transition duration-300">
+                    <div class="text-gray-400 text-sm mb-1">Sunday</div>
+                    <div class="text-xl font-bold text-white mb-2">Variety / Chill</div>
+                    <div class="text-purple-400 font-mono text-sm">12:00 PM EST</div>
+                </div>
+            </div>
+        </section>
 
-            var setRandomColor = function setRandomColor() {
-                var h = void 0,
-                    s = void 0,
-                    l = void 0;
+        <!-- Socials Grid -->
+        <section id="socials" class="mb-12">
+            <h2 class="text-2xl font-bold mb-6 flex items-center">
+                <i data-lucide="share-2" class="w-6 h-6 mr-2 twitch-accent"></i>
+                Connect
+            </h2>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <a href="#" class="bg-[#1DA1F2] hover:bg-opacity-80 p-4 rounded-lg flex flex-col items-center justify-center transition text-white h-32">
+                    <i data-lucide="twitter" class="w-8 h-8 mb-2"></i>
+                    <span class="font-bold">Twitter</span>
+                </a>
+                <a href="#" class="bg-[#5865F2] hover:bg-opacity-80 p-4 rounded-lg flex flex-col items-center justify-center transition text-white h-32">
+                    <i data-lucide="message-circle" class="w-8 h-8 mb-2"></i>
+                    <span class="font-bold">Discord</span>
+                </a>
+                <a href="#" class="bg-[#FF0000] hover:bg-opacity-80 p-4 rounded-lg flex flex-col items-center justify-center transition text-white h-32">
+                    <i data-lucide="youtube" class="w-8 h-8 mb-2"></i>
+                    <span class="font-bold">YouTube</span>
+                </a>
+                <a href="#" class="bg-gradient-to-tr from-yellow-400 to-purple-600 hover:opacity-80 p-4 rounded-lg flex flex-col items-center justify-center transition text-white h-32">
+                    <i data-lucide="instagram" class="w-8 h-8 mb-2"></i>
+                    <span class="font-bold">Instagram</span>
+                </a>
+            </div>
+        </section>
+    </main>
 
-                h = randomInt(0, 359);
-                s = randomInt(55, 75);
-                l = randomInt(40, 60);
+    <footer class="bg-[#18181b] py-8 border-t border-[#2d2d30] text-center text-gray-500 text-sm">
+        <p>&copy; 2024 Channel Name. All rights reserved.</p>
+    </footer>
 
-                document.documentElement.style.setProperty('--color', 'hsl(' + h + ', ' + s + '%, ' + l + '%)');
-                var hex = hslToHex(h, s, l);
-                document.title = hex;
-                colorElement.innerHTML = hex;
-                document.documentElement.style.setProperty('--color-transparent', hex + '22');
+    <!-- Twitch Embed Script -->
+    <script src="https://embed.twitch.tv/embed/v1.js"></script>
+    <script type="text/javascript">
+        // --- CONFIGURATION ---
+        const channelName = "solar_0613"; // Change this to your Twitch username
+        const domain = "alexspinks.dev";    // Change this to your website domain (e.g., mysite.com)
+        // ---------------------
 
-                setFavicon(hex);
-            };
-            setRandomColor();
+        // Initialize Icons
+        lucide.createIcons();
 
-            var body = document.getElementsByTagName("body")[0];
-            body.addEventListener("mousedown", function (ev) {
-                ev.preventDefault();
-            });
-            body.addEventListener("click", function () {
-                setRandomColor();
-            }, false);
-        };
+        // Initialize Twitch Player
+        new Twitch.Embed("twitch-embed", {
+            width: "100%",
+            height: "100%",
+            channel: channelName,
+            parent: [domain], // CRITICAL: This must match your actual domain name
+            layout: "video",
+            autoplay: true
+        });
+
+        // Update Chat iframe source dynamically
+        const chatFrame = document.getElementById('twitch-chat-embed');
+        chatFrame.src = `https://www.twitch.tv/embed/${channelName}/chat?parent=${domain}&darkpopout`;
     </script>
 </body>
-
 </html>
