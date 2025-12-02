@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>StreamerHub - Live Now</title>
+    <title>Solar_0613 - Live Stream</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
     <style>
@@ -21,21 +21,24 @@
 <body class="bg-[#0e0e10] text-gray-100 font-sans min-h-screen flex flex-col">
 
     <!-- Navigation -->
-    <nav class="bg-[#18181b] border-b border-[#2d2d30] py-4 sticky top-0 z-50">
+    <nav class="bg-[#18181b] border-b border-[#2d2d30] py-4 sticky top-0 z-50 shadow-lg">
         <div class="container mx-auto px-4 flex justify-between items-center">
-            <div class="flex items-center space-x-2">
-                <!-- Replace with your Logo URL -->
-                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-600 rounded-full flex items-center justify-center">
-                    <i data-lucide="gamepad-2" class="text-white"></i>
+            <div class="flex items-center space-x-3">
+                <!-- Icon -->
+                <div class="w-10 h-10 bg-gradient-to-br from-purple-600 to-indigo-900 rounded-lg flex items-center justify-center border border-purple-500/30">
+                    <i data-lucide="zap" class="text-white fill-current"></i>
                 </div>
-                <span class="text-xl font-bold tracking-tight">CHANNEL<span class="twitch-accent">NAME</span></span>
+                <!-- Brand Name -->
+                <span class="text-xl font-bold tracking-tight uppercase">SOLAR<span class="twitch-accent">_0613</span></span>
             </div>
-            <div class="hidden md:flex space-x-6 font-medium">
-                <a href="#home" class="hover:text-[#9146FF] transition">Home</a>
-                <a href="#schedule" class="hover:text-[#9146FF] transition">Schedule</a>
-                <a href="#socials" class="hover:text-[#9146FF] transition">Socials</a>
+            
+            <div class="hidden md:flex space-x-8 font-medium text-sm tracking-wide">
+                <a href="#home" class="hover:text-[#9146FF] transition-colors duration-200">Stream</a>
+                <a href="#schedule" class="hover:text-[#9146FF] transition-colors duration-200">Schedule</a>
+                <a href="#socials" class="hover:text-[#9146FF] transition-colors duration-200">Socials</a>
             </div>
-            <a href="https://twitch.tv/solar_0613" target="_blank" class="twitch-bg text-white px-4 py-2 rounded-md font-bold text-sm twitch-hover transition flex items-center space-x-2">
+
+            <a href="https://twitch.tv/solar_0613" target="_blank" class="twitch-bg text-white px-5 py-2 rounded-full font-bold text-sm twitch-hover transition-all transform hover:scale-105 flex items-center space-x-2 shadow-lg shadow-purple-900/20">
                 <i data-lucide="twitch" class="w-4 h-4"></i>
                 <span>Subscribe</span>
             </a>
@@ -43,24 +46,26 @@
     </nav>
 
     <!-- Main Content Area -->
-    <main class="flex-grow container mx-auto px-4 py-8" id="home">
+    <main class="flex-grow container mx-auto px-4 py-6 md:py-8" id="home">
         
         <!-- Live Stream & Chat Container -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[80vh] min-h-[600px] mb-12">
-            <!-- Video Player (Takes up 3/4 width on large screens) -->
-            <div class="lg:col-span-3 bg-black rounded-lg overflow-hidden shadow-2xl border border-[#2d2d30] relative group">
+        <!-- Logic: On mobile, stack video on top of chat. On desktop, side-by-side. -->
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[85vh] min-h-[600px] mb-16">
+            
+            <!-- Video Player (3/4 width) -->
+            <div class="lg:col-span-3 bg-black rounded-xl overflow-hidden shadow-2xl border border-[#2d2d30] relative group z-10">
                 <div id="twitch-embed" class="w-full h-full"></div>
-                <!-- Placeholder if JS fails -->
-                <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0">
-                    <span class="text-gray-500">Loading Stream...</span>
+                <!-- Loading State -->
+                <div class="absolute inset-0 flex items-center justify-center pointer-events-none z-0 bg-[#0e0e10]">
+                    <span class="text-purple-500 animate-pulse font-mono">Connecting to Solar_0613...</span>
                 </div>
             </div>
 
-            <!-- Chat (Takes up 1/4 width on large screens, moves to bottom on mobile) -->
-            <div class="lg:col-span-1 bg-[#18181b] rounded-lg border border-[#2d2d30] hidden lg:block overflow-hidden">
+            <!-- Chat (1/4 width) -->
+            <div class="lg:col-span-1 bg-[#18181b] rounded-xl border border-[#2d2d30] hidden lg:block overflow-hidden shadow-xl">
                 <iframe 
                     id="twitch-chat-embed"
-                    src="https://www.twitch.tv/embed/YOUR_USERNAME/chat?parent=YOUR_DOMAIN.com&darkpopout"
+                    src="https://www.twitch.tv/embed/solar_0613/chat?parent=alexspinks.dev&darkpopout"
                     height="100%"
                     width="100%"
                     class="w-full h-full border-0">
@@ -69,91 +74,99 @@
         </div>
 
         <!-- Schedule Section -->
-        <section id="schedule" class="mb-16">
-            <div class="flex items-center mb-6">
-                <i data-lucide="calendar" class="w-6 h-6 mr-2 twitch-accent"></i>
-                <h2 class="text-2xl font-bold">Weekly Schedule</h2>
+        <section id="schedule" class="mb-20 max-w-5xl mx-auto">
+            <div class="flex items-center mb-8 border-b border-[#2d2d30] pb-4">
+                <i data-lucide="calendar-days" class="w-6 h-6 mr-3 twitch-accent"></i>
+                <h2 class="text-3xl font-bold">Stream Schedule</h2>
             </div>
             
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Schedule Card 1 -->
-                <div class="bg-[#18181b] p-6 rounded-lg border border-[#2d2d30] hover:border-[#9146FF] transition duration-300">
-                    <div class="text-gray-400 text-sm mb-1">Monday & Wednesday</div>
-                    <div class="text-xl font-bold text-white mb-2">Ranked Grind</div>
-                    <div class="text-purple-400 font-mono text-sm">2:00 PM EST</div>
+                <div class="bg-[#18181b] p-6 rounded-xl border border-[#2d2d30] hover:border-[#9146FF] transition-all duration-300 group hover:-translate-y-1">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-purple-900/30 text-purple-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Mon / Wed</span>
+                        <i data-lucide="swords" class="text-gray-600 group-hover:text-purple-500 transition-colors"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-white mb-2">Ranked Grind</div>
+                    <div class="text-gray-400 text-sm">Usually starting around 2:00 PM EST</div>
                 </div>
                 
                 <!-- Schedule Card 2 -->
-                <div class="bg-[#18181b] p-6 rounded-lg border border-[#2d2d30] hover:border-[#9146FF] transition duration-300">
-                    <div class="text-gray-400 text-sm mb-1">Friday</div>
-                    <div class="text-xl font-bold text-white mb-2">Community Night</div>
-                    <div class="text-purple-400 font-mono text-sm">6:00 PM EST</div>
+                <div class="bg-[#18181b] p-6 rounded-xl border border-[#2d2d30] hover:border-[#9146FF] transition-all duration-300 group hover:-translate-y-1">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-purple-900/30 text-purple-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Friday</span>
+                        <i data-lucide="users" class="text-gray-600 group-hover:text-purple-500 transition-colors"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-white mb-2">Community Night</div>
+                    <div class="text-gray-400 text-sm">Viewer games & lobbies at 6:00 PM EST</div>
                 </div>
 
                 <!-- Schedule Card 3 -->
-                <div class="bg-[#18181b] p-6 rounded-lg border border-[#2d2d30] hover:border-[#9146FF] transition duration-300">
-                    <div class="text-gray-400 text-sm mb-1">Sunday</div>
-                    <div class="text-xl font-bold text-white mb-2">Variety / Chill</div>
-                    <div class="text-purple-400 font-mono text-sm">12:00 PM EST</div>
+                <div class="bg-[#18181b] p-6 rounded-xl border border-[#2d2d30] hover:border-[#9146FF] transition-all duration-300 group hover:-translate-y-1">
+                    <div class="flex justify-between items-start mb-4">
+                        <span class="bg-purple-900/30 text-purple-400 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider">Sunday</span>
+                        <i data-lucide="coffee" class="text-gray-600 group-hover:text-purple-500 transition-colors"></i>
+                    </div>
+                    <div class="text-2xl font-bold text-white mb-2">Variety / Chill</div>
+                    <div class="text-gray-400 text-sm">Relaxed vibes starting at 12:00 PM EST</div>
                 </div>
             </div>
         </section>
 
         <!-- Socials Grid -->
-        <section id="socials" class="mb-12">
-            <h2 class="text-2xl font-bold mb-6 flex items-center">
-                <i data-lucide="share-2" class="w-6 h-6 mr-2 twitch-accent"></i>
-                Connect
+        <section id="socials" class="mb-12 max-w-5xl mx-auto">
+            <h2 class="text-2xl font-bold mb-8 flex items-center justify-center">
+                <span class="bg-[#18181b] px-4 z-10">Connect with Solar</span>
+                <div class="h-px bg-[#2d2d30] absolute w-full max-w-5xl -z-0"></div>
             </h2>
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-                <a href="#" class="bg-[#1DA1F2] hover:bg-opacity-80 p-4 rounded-lg flex flex-col items-center justify-center transition text-white h-32">
-                    <i data-lucide="twitter" class="w-8 h-8 mb-2"></i>
-                    <span class="font-bold">Twitter</span>
+            <!-- Updated Grid: Changed from md:grid-cols-4 to md:grid-cols-3 since we only have 3 items now -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <a href="#" class="bg-[#5865F2]/10 hover:bg-[#5865F2] border border-[#5865F2]/20 hover:border-[#5865F2] p-6 rounded-xl flex flex-col items-center justify-center transition-all duration-300 group h-40">
+                    <i data-lucide="message-circle" class="w-8 h-8 mb-3 text-[#5865F2] group-hover:text-white"></i>
+                    <span class="font-bold text-[#5865F2] group-hover:text-white">Discord</span>
                 </a>
-                <a href="#" class="bg-[#5865F2] hover:bg-opacity-80 p-4 rounded-lg flex flex-col items-center justify-center transition text-white h-32">
-                    <i data-lucide="message-circle" class="w-8 h-8 mb-2"></i>
-                    <span class="font-bold">Discord</span>
+                <a href="#" class="bg-[#FF0000]/10 hover:bg-[#FF0000] border border-[#FF0000]/20 hover:border-[#FF0000] p-6 rounded-xl flex flex-col items-center justify-center transition-all duration-300 group h-40">
+                    <i data-lucide="youtube" class="w-8 h-8 mb-3 text-[#FF0000] group-hover:text-white"></i>
+                    <span class="font-bold text-[#FF0000] group-hover:text-white">YouTube</span>
                 </a>
-                <a href="#" class="bg-[#FF0000] hover:bg-opacity-80 p-4 rounded-lg flex flex-col items-center justify-center transition text-white h-32">
-                    <i data-lucide="youtube" class="w-8 h-8 mb-2"></i>
-                    <span class="font-bold">YouTube</span>
-                </a>
-                <a href="#" class="bg-gradient-to-tr from-yellow-400 to-purple-600 hover:opacity-80 p-4 rounded-lg flex flex-col items-center justify-center transition text-white h-32">
-                    <i data-lucide="instagram" class="w-8 h-8 mb-2"></i>
-                    <span class="font-bold">Instagram</span>
+                <a href="#" class="bg-gradient-to-tr from-yellow-400/10 to-purple-600/10 hover:from-yellow-400 hover:to-purple-600 border border-purple-500/20 p-6 rounded-xl flex flex-col items-center justify-center transition-all duration-300 group h-40">
+                    <i data-lucide="instagram" class="w-8 h-8 mb-3 text-purple-400 group-hover:text-white"></i>
+                    <span class="font-bold text-purple-400 group-hover:text-white">Instagram</span>
                 </a>
             </div>
         </section>
     </main>
 
     <footer class="bg-[#18181b] py-8 border-t border-[#2d2d30] text-center text-gray-500 text-sm">
-        <p>&copy; 2024 Channel Name. All rights reserved.</p>
+        <p>&copy; 2024 Solar_0613. All rights reserved.</p>
+        <p class="mt-2 text-xs text-gray-600">Built with Twitch API & Cloudflare</p>
     </footer>
 
     <!-- Twitch Embed Script -->
     <script src="https://embed.twitch.tv/embed/v1.js"></script>
     <script type="text/javascript">
         // --- CONFIGURATION ---
-        const channelName = "solar_0613"; // Change this to your Twitch username
-        const domain = "alexspinks.dev";    // Change this to your website domain (e.g., mysite.com)
+        const channelName = "solar_0613";
+        const domain = "alexspinks.dev";
         // ---------------------
 
         // Initialize Icons
         lucide.createIcons();
 
         // Initialize Twitch Player
+        // Documentation: https://dev.twitch.tv/docs/embed/video-and-clips/
         new Twitch.Embed("twitch-embed", {
             width: "100%",
             height: "100%",
             channel: channelName,
-            parent: [domain], // CRITICAL: This must match your actual domain name
+            parent: [domain], // MUST match the URL the site is hosted on
             layout: "video",
-            autoplay: true
+            autoplay: true,
+            muted: false
         });
 
-        // Update Chat iframe source dynamically
-        const chatFrame = document.getElementById('twitch-chat-embed');
-        chatFrame.src = `https://www.twitch.tv/embed/${channelName}/chat?parent=${domain}&darkpopout`;
+        // The chat iframe is handled via HTML src attribute, 
+        // but we can enforce updates here if needed.
     </script>
 </body>
 </html>
