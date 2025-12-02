@@ -5,7 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Solar_0613 - Live Stream</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/lucide/0.263.1/lucide.min.js"></script>
+    <!-- FIXED: Switched to a reliable CDN for icons to prevent "MIME type" errors -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         /* Twitch Purple Accent */
         .twitch-accent { color: #9146FF; }
@@ -70,7 +71,8 @@
                     <div class="text-xs text-gray-500">
                         <p class="mb-2">Chat loading...</p>
                         <p>If using Firefox/Brave, disable "Shields" for this site or open chat externally.</p>
-                        <a href="https://www.twitch.tv/popout/solar_0613/chat" target="_blank" class="text-purple-400 underline mt-2 block">Open Chat Popup</a>
+                        <!-- FIXED: Updated to the direct chat URL which works reliably -->
+                        <a href="https://www.twitch.tv/solar_0613/chat" target="_blank" class="text-purple-400 underline mt-2 block">Open Chat Popup</a>
                     </div>
                 </div>
                 <iframe 
@@ -161,12 +163,14 @@
         // ---------------------
 
         // Initialize Icons
+        // Note: Using unpkg allows this to load correctly without MIME errors
         lucide.createIcons();
 
         // Calculate allowed parents
         const currentHost = window.location.hostname;
         const parents = [domain];
-        if (currentHost && currentHost !== domain && currentHost !== 'localhost' && currentHost !== '') {
+        // Allow localhost and preview domains for testing
+        if (currentHost && currentHost !== domain && currentHost !== '') {
             parents.push(currentHost);
         }
 
@@ -196,7 +200,7 @@
         });
         chatIframe.src = chatSrc;
 
-        // Fallback: If player takes > 3 seconds, try to hide loader anyway so user can see if there is an error message
+        // Fallback: If player takes > 5 seconds, try to hide loader anyway
         setTimeout(() => {
              const loader = document.getElementById('stream-loading');
              if (loader) loader.style.display = 'none';
