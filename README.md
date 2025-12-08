@@ -3,7 +3,7 @@
 > A modern, interactive streaming hub for the Solar_0613 Twitch channel
 
 [![Live Site](https://img.shields.io/badge/Live-alexspinks.dev-9146FF?style=for-the-badge&logo=twitch&logoColor=white)](https://alexspinks.dev)
-[![Twitch](https://img.shields.io/badge/Twitch-Solar__0613-9146FF?style=for-the-badge&logo=twitch&logoColor=white)](https://twitch.tv/solar_0613)
+[![Twitch](https://img.shields.io/badge/Twitch-solar_0613-9146FF?style=for-the-badge&logo=twitch&logoColor=white)](https://twitch.tv/solar_0613)
 
 ## 📖 Overview
 
