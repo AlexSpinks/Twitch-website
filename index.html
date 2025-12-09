@@ -156,25 +156,33 @@
 
     <!-- Twitch Embed Script -->
     <script src="https://embed.twitch.tv/embed/v1.js"></script>
-    <script type="text/javascript">
+       <script type="text/javascript">
         // --- CONFIGURATION ---
         const channelName = "solar_0613";
         const domain = "alexspinks.dev";
+        
+        // Schedule: 0=Sun, 1=Mon, ... 6=Sat
+        // Time is in 24h format (14 = 2:00 PM)
+        const schedule = [
+            { day: 1, hour: 14, name: "Ranked Grind" },     // Mon 2PM
+            { day: 3, hour: 14, name: "Ranked Grind" },     // Wed 2PM
+            { day: 5, hour: 18, name: "Community Night" },  // Fri 6PM
+            { day: 0, hour: 12, name: "Variety Chill" }     // Sun 12PM
+        ];
         // ---------------------
-
+    
         // Initialize Icons
-        // Note: Using unpkg allows this to load correctly without MIME errors
         lucide.createIcons();
-
-        // Calculate allowed parents
+    
+        // 1. EMBED SETUP
         const currentHost = window.location.hostname;
-        const parents = [domain];
-        // Allow localhost and preview domains for testing
-        if (currentHost && currentHost !== domain && currentHost !== '') {
+        // We explicitly add www version to prevent common embed errors
+        const parents = [domain, "www." + domain];
+        
+        if (currentHost && !parents.includes(currentHost) && currentHost !== '') {
             parents.push(currentHost);
         }
-
-        // Initialize Twitch Player
+    
         const embed = new Twitch.Embed("twitch-embed", {
             width: "100%",
             height: "100%",
@@ -184,26 +192,57 @@
             autoplay: true,
             muted: false
         });
-
-        // Event Listener: Hide loading text when player is ready
+    
         embed.addEventListener(Twitch.Embed.VIDEO_READY, () => {
-            console.log("Twitch Player Ready");
-            const loader = document.getElementById('stream-loading');
-            if (loader) loader.style.display = 'none';
+            document.getElementById('stream-loading').style.display = 'none';
         });
-
-        // Initialize Chat Iframe
+    
+        // 2. CHAT SETUP
         const chatIframe = document.getElementById('twitch-chat-embed');
         let chatSrc = `https://www.twitch.tv/embed/${channelName}/chat?darkpopout=true`;
-        parents.forEach(p => {
-            chatSrc += `&parent=${p}`;
-        });
+        parents.forEach(p => chatSrc += `&parent=${p}`);
         chatIframe.src = chatSrc;
-
-        // Fallback: If player takes > 5 seconds, try to hide loader anyway
+    
+        // 3. COUNTDOWN TIMER LOGIC
+        function updateCountdown() {
+            const now = new Date();
+            const estTime = new Date(now.toLocaleString("en-US", {timeZone: "America/New_York"}));
+            
+            // Find next stream
+            let nextStream = null;
+            let minDiff = Infinity;
+    
+            schedule.forEach(slot => {
+                let target = new Date(estTime);
+                target.setDate(estTime.getDate() + (slot.day + 7 - estTime.getDay()) % 7);
+                target.setHours(slot.hour, 0, 0, 0);
+    
+                // If today is the day but time passed, move to next week
+                if (target <= estTime) {
+                    target.setDate(target.getDate() + 7);
+                }
+    
+                const diff = target - estTime;
+                if (diff < minDiff) {
+                    minDiff = diff;
+                    nextStream = { time: target, name: slot.name };
+                }
+            });
+    
+            // If we found a time, display it (You can create a div with id="countdown" to show this)
+            if (nextStream) {
+                console.log(`Next stream: ${nextStream.name} in ${Math.floor(minDiff / 1000 / 60)} mins`);
+                // Optional: Update a DOM element here if you add one later
+            }
+        }
+        
+        // Run once on load
+        updateCountdown();
+    
+        // Fallback loader hide
         setTimeout(() => {
-             const loader = document.getElementById('stream-loading');
-             if (loader) loader.style.display = 'none';
+            const loader = document.getElementById('stream-loading');
+            if (loader) loader.style.display = 'none';
         }, 5000);
     </script>
 </body>
